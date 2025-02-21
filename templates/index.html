@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV to JSON Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        form {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+        input[type="file"], button {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+        button {
+            background: #ff6b6b;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ff4c4c;
+        }
+        .loader {
+            display: none;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .download-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📂 Upload CSV & Convert to JSON</h1>
+    
+    <form id="uploadForm" action="/" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput" accept=".csv" required>
+        <button type="submit">Upload & Convert</button>
+    </form>
+
+    <div class="loader" id="loader"></div>
+
+    {% if message %}
+        <p id="message">{{ message }}</p>
+    {% endif %}
+
+    {% if download_url %}
+    <div class="download-section" id="downloadSection">
+        <h2>✅ Your JSON File is Ready!</h2>
+        <a href="{{ download_url }}" download>
+            <button>Download JSON</button>
+        </a>
+    </div>
+    {% endif %}
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", function () {
+            document.getElementById("loader").style.display = "block";
+        });
+
+        if (document.getElementById("downloadSection")) {
+            document.getElementById("downloadSection").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
